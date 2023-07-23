@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">  
+    <title>Track Your Product</title>
+    <style>
+      body {
+        background: #232526; 
+        background: -webkit-linear-gradient(to right, #414345, #232526); 
+        background: linear-gradient(to right, #414345, #232526); 
+        height: 1800px;
+      }
+        .container {
+          width: 100%;
+          height: 100%;
+          padding-right: 15px;
+          padding-left: 15px;
+          margin-right: auto;
+          margin-left: auto;
+        }
+        .image {
+          background-image: url("https://source.unsplash.com/iLNPS0N_6J4");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center; 
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          margin: 0 auto;
+          border: 5px solid #fdf5e6;
+        }
+        a {
+          font-size: large;
+        }
+        .w3-border {
+          border: 3px solid #ccc !important;
+        }
+        .links-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+        }
+        .links-container a {
+          width: 100%;
+          color: #414345 !important;
+          transition: 0.2s;
+        }
+        .links-container a:hover {
+          opacity: 1;
+        }
+        .profession {
+          margin-top: 15px !important;
+        }
+        .profession span {
+          font-size: 14px;
+        }
+        .icons {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+        }
+        .icons a {
+          text-decoration: none;
+        }
+        .icons a svg {
+          fill: #fdf5e6 !important;
+          transform: scale(1);
+        }
+        .border {
+          border: 3px ridge #fdf5e6;
+        }
+        .contact {
+          text-align: center;
+          color: #fdf5e6;
+        }
+        .contact .info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 15px;
+        }
+        .contact .info span {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+        .bio {
+          font-size: 11px;
+          text-align: center;
+        }
+        .showresult1{
+          color: green;
+        }
+        .showresult2{
+          color: red;
+        }
+        .showresult3{
+          color: green;
+        }
+        .showresult4{
+          color: red;
+        }
+        @media screen and (min-width: 768px) {
+          .link {
+            width: 100%;
+          }
+          a {
+            font-size: x-large;
+          }
+        }
+        @media screen and (min-width: 576px) {
+          .container {
+            max-width: 540px;
+          }
+          .profession span {
+            font-size: 24px;
+          }
+          .bio {
+            font-size: 15px;
+          }
+        }
+    </style>
+    <script src="https://unpkg.com/feather-icons@4.28.0/dist/feather.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.9.3/dist/js/tabulator.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.2.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.4.2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.4.2.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@holoviz/panel@0.13.0/dist/panel.min.js"></script>
+    <script type="text/javascript">
+      Bokeh.set_log_level("info");
+    </script>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+        - numpy
+        - pandas
+        - panel==0.13.1a2
+    </py-env>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Image and name container -->
+      <div class="w3-margin-top" style="text-align: center">
+        <div class="image w3-round"></div>
+        <p class="profession"><span class="w3-padding w3-margin" style="font-weight: bolder; color: #fdf5e6">PRODUCT<span style="color: #ffcc66">TRACKER</span></span></p>
+        <p class="bio"><span class="w3-padding w3-margin" style="font-weight: bolder; color: #fdf5e6">TRACK YOUR PRODUCT HERE</span></p><br>
+      </div>
+      <h1 style="color: white; font-size: large;">Upload The Data Here:
+      </h1>
+      <br>
+      <br>
+      <div id="fileinput" style="color: #ccc;"></div>
+      <br>
+      <div id="upload"></div>
+      <br>
+      <br>
+      <br>
+      <div id="table"></div>   
+      <br>
+      <br>
+      <br>
+      <button type="button" onclick="show()" style="background-color: #ccc; padding: 5px 10px;">Predict the Result(Trained data):</button> 
+      <br>
+      <br> 
+      <img src="C:\Users\altaf\Desktop\project\training set.PNG" style="display: none; height: 30vw; width: 40vw;" id="trainedimage"/>
+      <br>
+      <br>
+      <div id="showresult1" style="color: rgb(136, 255, 136); font-size: large;"></div>
+      <br>
+      <div id="showresult2" style="color: rgb(241, 18, 18); font-size: large;"></div>
+      <br>
+      <br>
+      <br>
+      <button type="button" onclick="show1()" style="background-color: #ccc; padding: 5px 10px;">Predict the Result(Tested data):</button>
+      <br>
+      <br>
+      <br>
+      <img src="C:\Users\altaf\Desktop\project\test set.PNG" style="display: none; height: 30vw; width: 40vw;" id="testedimage"/>
+      <br>
+      <br>
+      <div id="showresult3" style="color: rgb(136, 255, 136); font-size: large;"></div>
+      <br>
+      <div id="showresult4" style="color: rgb(241, 18, 18); font-size: large;"></div>
+      <br>
+      <br>
+      <br>
+    </div>
+    <script>
+      feather.replace()
+      const show = () => {
+  document.getElementById("trainedimage").style.display ='block';
+  document.getElementById("showresult1").innerHTML = "Will Buy";
+  document.getElementById("showresult2").innerHTML = "Will Not Buy";
+      }
+      const show1 = () => {
+  document.getElementById("testedimage").style.display ='block';
+  document.getElementById("showresult3").innerHTML = "Will Buy";
+  document.getElementById("showresult4").innerHTML = "Will Not Buy";
+      }
+    </script>
+    <py-script>
+      import asyncio
+      import panel as pn
+      import pandas as pd
+      from panel.io.pyodide import show
+    
+      fileInput = pn.widgets.FileInput(accept='.csv')
+      uploadButton = pn.widgets.Button(name='Upload', button_type = 'primary')
+      
+      table = pn.widgets.Tabulator(pagination='remote', page_size=10)
+      
+      document.getElementById('table').style.display = 'none'
+      
+      def process_file(event):
+          if fileInput.value is not None:
+              table.value = pd.read_csv(io.BytesIO(fileInput.value))
+              document.getElementById('table').style.display = 'block'
+      
+      uploadButton.on_click(process_file)
+      
+      await show(fileInput, 'fileinput')
+      await show(uploadButton, 'upload')
+      await show(table, 'table')
+          </py-script>
+  </body>  
+</html>
